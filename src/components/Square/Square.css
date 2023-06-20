@@ -12,3 +12,8 @@
     text-align: center;
     width: 34px;
 }
+
+.square-winner {
+    background: darkolivegreen;
+    color: #f2f2f2;
+}

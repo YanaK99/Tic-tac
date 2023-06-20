@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import * as PropTypes from "prop-types";
 import Board from "./components/Board";
+import {calculateWinner} from "./utils/calculateWinner";
+import {showWinner} from "./utils/showWinner";
 
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
+  const winner = calculateWinner(currentSquares);
+  const noWinner = !winner && currentMove === 9;
+  const isGameEnd = winner || noWinner;
+  const resultOfGame = showWinner(winner);
 
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
@@ -34,6 +39,7 @@ export default function Game() {
           <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
         </div>
         <div className="game-info">
+            {isGameEnd && <div className="result">{resultOfGame}</div>}
           <ol>{moves}</ol>
         </div>
       </div>
